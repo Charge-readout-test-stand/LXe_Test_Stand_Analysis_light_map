@@ -3,7 +3,7 @@
 #include "nEXODigiAnalysis.hh"
 #include "nEXOChargeReadoutDigitize.hh"
 #include "nEXOClustering.hh"
-
+#include "nEXOLightReadoutDigitize.hh"
 #ifndef nEXOEventData_hh
 #include "nEXOUtilities/nEXOEventData.hh"
 #endif
@@ -16,7 +16,7 @@ using namespace std;
 namespace {
   void PrintUsage() {
   std::cout << " Usage: " << std::endl;
-  std::cout << " OpNovice [-i InputFileName] [-t InputTreeName] [-tmap tileNampName]"
+  std::cout << " OpNovice [-i InputFileName] [-t InputTreeName] [-tmap tileNampName] [-lmap lightMapName]"
             << " [-pmap padsMapName] [-o OutputFileName] [-n nEvents] [-r seed]"
             << " [-el elifetime] [-dcoef diffusionCoef] [-ids isInductionSim]"
             << " [-field electricField]"
@@ -30,21 +30,30 @@ int main(int argc,char** argv)
 {
   TString InputFileName, InputTreeName;
   TString tileMapName, padsMapName;
+  TString lightMapName;
   TString coType="Pads", wpFileName;
   if(getenv("NEXOANALYSIS")) {
     tileMapName = TString(getenv("NEXOANALYSIS")) + "/utilities/scripts/tilesMap.txt";
     padsMapName = TString(getenv("NEXOANALYSIS")) + "/utilities/scripts/localChannelsMap.txt";
     wpFileName = TString(getenv("NEXOANALYSIS")) + "/utilities/data/";
+    lightMapName = TString(getenv("NEXOANALYSIS")) + "/utilities/data/";
+ 
   }
   TString OutputFileName, OutputTreeName="evtTree";
   Int_t nEvents = 0;
 
   nEXOChargeReadoutDigitize* chargeDigi = new nEXOChargeReadoutDigitize();
+ nEXOLightReadoutDigitize* lightDigi = new nEXOLightReadoutDigitize();
 
   for ( Int_t i=1; i<argc; i=i+2 ) {
     if      ( TString(argv[i]) == "-i" ) InputFileName = argv[i+1];
     else if ( TString(argv[i]) == "-t" ) InputTreeName = argv[i+1];
     else if ( TString(argv[i]) == "-tmap" ) tileMapName = argv[i+1];
+    else if ( TString(argv[i]) == "-lmap" ){
+	 lightMapName += argv[i+1];
+	 if(lightDigi->LoadLightMap(lightMapName)==false) exit(-1); 
+	 	
+}
     else if ( TString(argv[i]) == "-pmap" ) padsMapName = argv[i+1];
     else if ( TString(argv[i]) == "-o" ) OutputFileName = argv[i+1];
     else if ( TString(argv[i]) == "-wpFile" ) wpFileName += argv[i+1];
@@ -77,6 +86,7 @@ int main(int argc,char** argv)
         chargeDigi->SetInductionType( TString(argv[i+1]));
     }
     else {
+	cout << "arguments" << argv[i] << endl;
       PrintUsage();
       return 1;
     }
@@ -84,6 +94,8 @@ int main(int argc,char** argv)
 
   if(chargeDigi->LoadChannelMap(tileMapName, padsMapName)==false) exit(-1);
   if(chargeDigi->LoadWP(coType, wpFileName)==false) exit(-1);
+
+cout << "Efficiency" << lightDigi->GetEfficiency(8, 8, 8) << endl;
 
   cout << "---------------Setting Branches----------------" << endl;
   nEXODigiAnalysis::GetInstance()->SetTreeBranches(InputFileName, InputTreeName);
