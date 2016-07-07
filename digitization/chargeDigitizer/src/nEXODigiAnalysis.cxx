@@ -196,7 +196,9 @@ void nEXODigiAnalysis::CreateOutputFile(TString OutputFileName, TString OutputTr
   fOutTree->Branch("GenZ", &fGenZ, "GenZ/D");
   fOutTree->Branch("NPE", &fNPE, "NPE/D");
   fOutTree->Branch("NPEactive", &fNPEactive, "NPEactive/D");
-  
+  fOutTree->Branch("NOP", &fNOP, "NOP/I");
+   
+ 
   // Primary info:
   fOutTree->Branch("NPrimaries", &fNPrimaries,"NPrimaries/I"); 
   fOutTree->Branch("PdgCode", fPdgCode,"PdgCode[NPrimaries]/I"); 
