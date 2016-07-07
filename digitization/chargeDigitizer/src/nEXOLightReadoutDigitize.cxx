@@ -42,6 +42,7 @@ return fHist->GetBinContent(iBin);
 void nEXOLightReadoutDigitize::CalcNPE(Long64_t evtEntry)
 {
   fNPE = 0;
+  fNPEactive = 0;
   cout << "PE " << fNPE << endl;
   nEXODigiAnalysis::GetInstance()->GetEntry(evtEntry);
   Int_t NOP = nEXODigiAnalysis::GetInstance()->GetNumOP();
@@ -59,7 +60,6 @@ void nEXOLightReadoutDigitize::CalcNPE(Long64_t evtEntry)
     cout << "efficiency " << efficiency << endl;
     cout << "PE " << fNPE << endl;
  
-    fNPEactive = 0;
     Double_t rho= sqrt(opX*opX + opY*opY);
     cout << "rho position " << rho << endl; 
     if ((-105 <= rho && rho <= 105) && (0 <= opZ && opZ <= 18.16)) {
