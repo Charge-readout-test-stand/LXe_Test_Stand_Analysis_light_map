@@ -66,7 +66,7 @@ void nEXOLightReadoutDigitize::CalcNPE(Long64_t evtEntry)
     fNPEactive += nEXOLightReadoutDigitize::GetEfficiency(opX, opY, opZ);
     cout << "PEactive " << fNPEactive << endl;   
      }	
-    if (i>10) break;
+    
      	
  }   
 }
