@@ -21,6 +21,8 @@ public:
   bool LoadLightMap(TString lightMapName);
 
   Double_t GetNPE() { return fNPE; }
+  Double_t GetNPEactive() { return fNPEactive; }
+
 
 private:
 TH2D* fHist;
