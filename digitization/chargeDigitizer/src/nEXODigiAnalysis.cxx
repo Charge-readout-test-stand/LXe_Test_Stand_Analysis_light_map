@@ -42,6 +42,17 @@ void nEXODigiAnalysis::GetOP(int i, Double_t& E, Double_t& X, Double_t& Y, Doubl
 
 Int_t nEXODigiAnalysis::GetNumOP() {return fNOP; }
 
+/*void nEXODigiAnalysis::GetPE(int i, Double_t& E, Double_t& X, Double_t& Y, Double_t& Z, Double_t& T)
+{
+  E = fPEEnergy[i];
+  X = fPEX[i];
+  Y = fPEY[i];
+  Z = fPEZ[i];
+ // T = fPET[i];
+}
+
+Int_t nEXODigiAnalysis::GetNumPE() {return fNPE; }
+*/
 void nEXODigiAnalysis::ResetTreeVariables(void)
 {
   fEventNumber = 0;
@@ -184,6 +195,7 @@ void nEXODigiAnalysis::CreateOutputFile(TString OutputFileName, TString OutputTr
   fOutTree->Branch("GenY", &fGenY, "GenY/D");
   fOutTree->Branch("GenZ", &fGenZ, "GenZ/D");
   fOutTree->Branch("NPE", &fNPE, "NPE/D");
+  fOutTree->Branch("NPEactive", &fNPEactive, "NPEactive/D");
   
   // Primary info:
   fOutTree->Branch("NPrimaries", &fNPrimaries,"NPrimaries/I"); 
@@ -272,6 +284,8 @@ void nEXODigiAnalysis::FillClusters(nEXOEventData* ED)
 }
 void nEXODigiAnalysis::Fill(nEXOLightReadoutDigitize* lightDigi)
 {
+fNPE = lightDigi->GetNPE();
+fNPEactive = lightDigi->GetNPEactive();
 }
 void nEXODigiAnalysis::Fill(nEXOChargeReadoutDigitize* chargeDigi)
 {
