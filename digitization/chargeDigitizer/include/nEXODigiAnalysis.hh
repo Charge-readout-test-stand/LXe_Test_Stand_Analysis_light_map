@@ -3,6 +3,7 @@
 
 #ifndef nEXOChargeReadoutDigitize_hh 
 #include "nEXOChargeReadoutDigitize.hh"
+#include "nEXOLightReadoutDigitize.hh"
 #endif
 
 #include <vector>
@@ -35,12 +36,15 @@ public:
   virtual ~nEXODigiAnalysis();
   
   void GetTE(Int_t i, Double_t& E, Double_t& X, Double_t& Y, Double_t& Z, Double_t& T);
+  void GetOP(Int_t i, Double_t& E, Double_t& X, Double_t& Y, Double_t& Z, Double_t& T);
   void GetEntry(Int_t i);
   Int_t GetNumTE();
+  Int_t GetNumOP();
+  Double_t fNPE;
+  void Fill(nEXOLightReadoutDigitize* lightDigi);
   Long64_t GetEntries();
   void SetTreeBranches(TString filename, TString treename);
   Double_t GetAnodeZ() { return fAnodeZ; }
-
   void CreateOutputFile(TString filename, TString treename);
   void Fill(nEXOChargeReadoutDigitize* chargeDigi);
   void FillClusters(nEXOEventData* ED);
@@ -109,8 +113,8 @@ private:
   TBranch* b_Ypos;
   TBranch* b_Zpos;
   
-  TBranch* b_NOP;
-  TBranch* b_InitNOP;
+  TBranch* b_NumOP;
+  TBranch* b_InitNumOP;
   TBranch* b_OPEnergy;
   TBranch* b_SiPMID;
   TBranch* b_OPTime;
