@@ -21,6 +21,8 @@
 
 const int MAXTENUM = 200000;
 const int MAXOPNUM = 200000;
+const int MAXPENUM = 200000;
+const int MAXPEactiveNUM = 200000;
 const int MAXDEPNUM = 100000;
 const int MAXPCDNUM = 50000;
 const int MAXCCNUM = 100;
@@ -37,10 +39,10 @@ public:
   
   void GetTE(Int_t i, Double_t& E, Double_t& X, Double_t& Y, Double_t& Z, Double_t& T);
   void GetOP(Int_t i, Double_t& E, Double_t& X, Double_t& Y, Double_t& Z, Double_t& T);
+  //void GetPE(Int_t i, Double_t& E, Double_t& X, Double_t& Y, Double_t& Z, Double_t& T);
   void GetEntry(Int_t i);
   Int_t GetNumTE();
   Int_t GetNumOP();
-  Double_t fNPE;
   void Fill(nEXOLightReadoutDigitize* lightDigi);
   Long64_t GetEntries();
   void SetTreeBranches(TString filename, TString treename);
@@ -83,7 +85,8 @@ private:
   Int_t fNPrimaries;
   Int_t fPdgCode[MAXDEPNUM]; //http://pdg.lbl.gov/mc_particle_id_contents.html
   Double_t fKineticEnergy[MAXDEPNUM];
-  
+
+  //OP
   Int_t fNOP;
   Int_t fInitNOP;
   Double_t fOPEnergy[MAXOPNUM];
@@ -93,6 +96,23 @@ private:
   Double_t fOPX[MAXOPNUM];
   Double_t fOPY[MAXOPNUM];
   Double_t fOPZ[MAXOPNUM];
+  //PE
+  Double_t fNPE;
+  Double_t fInitNPE;
+  Double_t fPEEnergy[MAXPENUM];
+  Double_t fPETime[MAXPENUM];
+  Double_t fPEX[MAXPENUM];
+  Double_t fPEY[MAXPENUM];
+  Double_t fPEZ[MAXPENUM]; 
+  //PEactive
+  Double_t fNPEactive;
+  Double_t fInitNPEactive;  
+  Double_t fPEactiveEnergy[MAXPEactiveNUM];
+  Double_t fPEactiveTime[MAXPEactiveNUM];
+  Double_t fPEactiveX[MAXPEactiveNUM];
+  Double_t fPEactiveY[MAXPEactiveNUM];
+  Double_t fPEactiveZ[MAXPEactiveNUM];  
+  //TE
   Int_t fNTE;
   Double_t fTEEnergy[MAXTENUM];
   Double_t fTEX[MAXTENUM];
@@ -122,6 +142,16 @@ private:
   TBranch* b_OPX;
   TBranch* b_OPY;
   TBranch* b_OPZ;
+  TBranch* b_NPE;
+  TBranch* b_PEEnergy;
+  TBranch* b_PEX;
+  TBranch* b_PEY;
+  TBranch* b_PEZ;
+  TBranch* b_NPEactive;
+  TBranch* b_PEactiveEnergy;
+  TBranch* b_PEactiveX;
+  TBranch* b_PEactiveY;
+  TBranch* b_PEactiveZ;
   TBranch* b_NTE;
   TBranch* b_TEEnergy;
   TBranch* b_TEX;
