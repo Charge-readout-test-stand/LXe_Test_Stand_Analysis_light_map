@@ -31,6 +31,17 @@ void nEXODigiAnalysis::GetTE(int i, Double_t& E, Double_t& X, Double_t& Y, Doubl
 
 Int_t nEXODigiAnalysis::GetNumTE() {return fNTE; }
 
+void nEXODigiAnalysis::GetOP(int i, Double_t& E, Double_t& X, Double_t& Y, Double_t& Z, Double_t& T)
+{
+  E = fOPEnergy[i];
+  X = fOPX[i];
+  Y = fOPY[i];
+  Z = fOPZ[i];
+ // T = fOPT[i];
+}
+
+Int_t nEXODigiAnalysis::GetNumOP() {return fNOP; }
+
 void nEXODigiAnalysis::ResetTreeVariables(void)
 {
   fEventNumber = 0;
@@ -101,15 +112,15 @@ void nEXODigiAnalysis::SetTreeBranches(TString filename, TString treename)
   //fRootTree->SetBranchAddress("Xpos", &fXpos, &b_Xpos);
   //fRootTree->SetBranchAddress("Ypos", &fYpos, &b_Ypos);
   //fRootTree->SetBranchAddress("Zpos", &fZpos, &b_Zpos); 
-//  fRootTree->SetBranchAddress("InitNumOP", &fInitNOP, &b_InitNumOP);
-//  fRootTree->SetBranchAddress("OPStopVolume", fOPStopVolume, &b_OPStopVolume);
-//  fRootTree->SetBranchAddress("NumOP", &fNOP, &b_NumOP);
+  fRootTree->SetBranchAddress("InitNumOP", &fInitNOP, &b_InitNumOP);
+  //fRootTree->SetBranchAddress("OPStopVolume", fOPStopVolume, &b_OPStopVolume);
+  fRootTree->SetBranchAddress("NumOP", &fNOP, &b_NumOP);
 //  fRootTree->SetBranchAddress("SiPMID", &fSiPMID, &b_SiPMID);
-//  fRootTree->SetBranchAddress("OPEnergy", &fOPEnergy, &b_OPEnergy);
+ // fRootTree->SetBranchAddress("OPEnergy", &fOPEnergy, &b_OPEnergy);
 //  fRootTree->SetBranchAddress("OPTime", &fOPTime, &b_OPTime);
-//  fRootTree->SetBranchAddress("OPX", &fOPX, &b_OPX);
-//  fRootTree->SetBranchAddress("OPY", &fOPY, &b_OPY);
-//  fRootTree->SetBranchAddress("OPZ", &fOPZ, &b_OPZ);
+  fRootTree->SetBranchAddress("OPX", &fOPX, &b_OPX);
+  fRootTree->SetBranchAddress("OPY", &fOPY, &b_OPY);
+  fRootTree->SetBranchAddress("OPZ", &fOPZ, &b_OPZ);
   fRootTree->SetBranchAddress("NumTE", &fNTE, &b_NTE);
 //  fRootTree->SetBranchAddress("TEEnergy", &fTEEnergy, &b_TEEnergy);
   fRootTree->SetBranchAddress("TEX", &fTEX, &b_TEX);
@@ -172,7 +183,8 @@ void nEXODigiAnalysis::CreateOutputFile(TString OutputFileName, TString OutputTr
   fOutTree->Branch("GenX", &fGenX, "GenX/D");
   fOutTree->Branch("GenY", &fGenY, "GenY/D");
   fOutTree->Branch("GenZ", &fGenZ, "GenZ/D");
- 
+  fOutTree->Branch("NPE", &fNPE, "NPE/D");
+  
   // Primary info:
   fOutTree->Branch("NPrimaries", &fNPrimaries,"NPrimaries/I"); 
   fOutTree->Branch("PdgCode", fPdgCode,"PdgCode[NPrimaries]/I"); 
@@ -258,7 +270,9 @@ void nEXODigiAnalysis::FillClusters(nEXOEventData* ED)
     for(int i=0; i<fNumCC; i++) fmsEnergy += fccEnergy[i];
   }
 }
-
+void nEXODigiAnalysis::Fill(nEXOLightReadoutDigitize* lightDigi)
+{
+}
 void nEXODigiAnalysis::Fill(nEXOChargeReadoutDigitize* chargeDigi)
 {
   //-----------------------PCD Map-----------------------
