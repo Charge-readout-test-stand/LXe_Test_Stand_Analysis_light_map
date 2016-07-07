@@ -16,11 +16,17 @@ public:
   void GeneratePCDs();
   void Digitize();
   void SetNoiseModel();
+  void CalcNPE(Long64_t evtEntry);
   double GetEfficiency(double x, double y, double z);
   bool LoadLightMap(TString lightMapName);
+
+  Double_t GetNPE() { return fNPE; }
+
 private:
 TH2D* fHist;
 TFile* fFile;
+Double_t fNPE;
+Double_t fNPEactive;
 };
 
 #endif
