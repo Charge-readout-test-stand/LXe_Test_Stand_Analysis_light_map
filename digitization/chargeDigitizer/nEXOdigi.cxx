@@ -95,7 +95,7 @@ int main(int argc,char** argv)
   if(chargeDigi->LoadChannelMap(tileMapName, padsMapName)==false) exit(-1);
   if(chargeDigi->LoadWP(coType, wpFileName)==false) exit(-1);
 
-cout << "Efficiency" << lightDigi->GetEfficiency(8, 8, 8) << endl;
+cout << "Efficiency" << lightDigi->GetEfficiency(1, 1, 1) << endl;
 
   cout << "---------------Setting Branches----------------" << endl;
   nEXODigiAnalysis::GetInstance()->SetTreeBranches(InputFileName, InputTreeName);
@@ -116,7 +116,10 @@ cout << "Efficiency" << lightDigi->GetEfficiency(8, 8, 8) << endl;
     nEXOEventData* ED = new nEXOEventData();
     chargeDigi->GeneratePCDs(i, ED);
     chargeDigi->Digitize(ED);
+    lightDigi->CalcNPE(i);
     nEXODigiAnalysis::GetInstance()->Fill(chargeDigi);
+    nEXODigiAnalysis::GetInstance()->Fill(lightDigi);
+
 
     // clustering test
     //cout << "---------------Create Cluster----------------" << endl;
