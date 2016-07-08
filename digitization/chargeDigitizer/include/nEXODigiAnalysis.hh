@@ -21,6 +21,7 @@
 
 const int MAXTENUM = 200000;
 const int MAXOPNUM = 200000;
+const int MAXOPactiveNUM = 200000;
 const int MAXPENUM = 200000;
 const int MAXPEactiveNUM = 200000;
 const int MAXDEPNUM = 100000;
@@ -96,7 +97,17 @@ private:
   Double_t fOPX[MAXOPNUM];
   Double_t fOPY[MAXOPNUM];
   Double_t fOPZ[MAXOPNUM];
-  //PE
+//OPactive
+  Int_t fNOPactive;
+  Int_t fInitNOPactive;  
+  Double_t fOPactiveEnergy[MAXOPactiveNUM];
+  Double_t fOPactiveTime[MAXOPactiveNUM];
+  Double_t fOPactiveX[MAXOPactiveNUM];
+  Double_t fOPactiveY[MAXOPactiveNUM];
+  Double_t fOPactiveZ[MAXOPactiveNUM];  
+  
+
+//PE
   Double_t fNPE;
   Double_t fInitNPE;
   Double_t fPEEnergy[MAXPENUM];
