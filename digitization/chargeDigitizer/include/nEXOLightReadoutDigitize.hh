@@ -22,13 +22,14 @@ public:
 
   Double_t GetNPE() { return fNPE; }
   Double_t GetNPEactive() { return fNPEactive; }
-
+  Int_t GetNOPactive() { return fNOPactive; }
 
 private:
 TH2D* fHist;
 TFile* fFile;
 Double_t fNPE;
 Double_t fNPEactive;
+Int_t fNOPactive;
 };
 
 #endif
