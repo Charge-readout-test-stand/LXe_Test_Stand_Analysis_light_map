@@ -197,7 +197,7 @@ void nEXODigiAnalysis::CreateOutputFile(TString OutputFileName, TString OutputTr
   fOutTree->Branch("NPE", &fNPE, "NPE/D");
   fOutTree->Branch("NPEactive", &fNPEactive, "NPEactive/D");
   fOutTree->Branch("NOP", &fNOP, "NOP/I");
-   
+  fOutTree->Branch("NOPactive", &fNOPactive, "NOPactive/I"); 
  
   // Primary info:
   fOutTree->Branch("NPrimaries", &fNPrimaries,"NPrimaries/I"); 
@@ -288,6 +288,7 @@ void nEXODigiAnalysis::Fill(nEXOLightReadoutDigitize* lightDigi)
 {
 fNPE = lightDigi->GetNPE();
 fNPEactive = lightDigi->GetNPEactive();
+fNOPactive = lightDigi->GetNOPactive();
 }
 void nEXODigiAnalysis::Fill(nEXOChargeReadoutDigitize* chargeDigi)
 {
