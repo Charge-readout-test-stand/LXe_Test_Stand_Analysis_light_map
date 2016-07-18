@@ -8,12 +8,11 @@ void test()
 
 	TFile f("data2.root", "recreate"); //creates a Tree file data2.root
 	TCanvas c1("c1", "");
-	TH2D *hist2 = new TH2D("hist2", "light map", 38, 0, 7.6, 38, 0, 7.6); //Creates new TH2D histogram
-  for (Int_t i=1; i<190000; i++) {
+	TH2D *hist = new TH2D("hist", "light map", 50, 0, 10, 38, 0, 7.6); //Creates new TH2D histogram
   	TTree *tree = data->Get("data"); //get TTree data from data.root
  	cout << tree->GetEntries() << endl; 
 	
-	//fill hist2 with info from data.root
+	//fill hist with info from data.root
 	Int_t event;
 	Double_t radius;
 	Double_t zdir;
@@ -25,26 +24,24 @@ void test()
 
 	for (Int_t i=1; i<=190000; i++) {
 		tree->GetEntry(i); 
-		Double_t sum = 0;
-		sum += photon_nr; 
-		if(i%100==0)
-		{
-			Double_t photon_nr_ave = sum/100;
+		
+			Double_t photon_nr_ave = photon_nr/100;
 			Double_t Radius = radius + 0.001;
 			Double_t Zdir = zdir + 0.001;	
-			hist2->Fill(Radius,Zdir,photon_nr_ave);
+			hist->Fill(Radius,Zdir,photon_nr_ave);
 			cout << photon_nr_ave << endl;		
-		}
+		
 	  }
-        }
+        
 //	for (Int_t i=0; i<=190000; i+=100) {  
-//		hist2->Fill(zdir,radius,photon_nr_ave);
-//		cout << hist2->GetEntries() << endl;
+//		hist->Fill(zdir,radius,photon_nr_ave);
+//		cout << hist->GetEntries() << endl;
 //          }	
-		hist2->Draw("colz");    
+		gStyle->SetOptStat(0);   
+		hist->Draw("colz");    
 		c1.Update();
-		c1.Print("hist2.pdf");
-		hist2->Write();
+		c1.Print("hist.png");
+		hist->Write();
 		Int_t pause;
 		cin >> pause;
   	    	
