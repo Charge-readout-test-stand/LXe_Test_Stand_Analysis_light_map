@@ -25,7 +25,10 @@ bool nEXOLightReadoutDigitize::LoadLightMap(TString lightMapName)
 {
 fFile = new TFile(lightMapName);
 fHist = (TH2D*) fFile->Get("hist");  
-if (fHist == 0) return false; 
+if (fHist == 0) {
+cout << "hist not found" << endl; 
+return false;
+}
 cout << " Entries  " << fHist->GetEntries() << endl;
 return true;
 }
@@ -46,30 +49,30 @@ void nEXOLightReadoutDigitize::CalcNPE(Long64_t evtEntry)
   fNPE = 0;
   fNPEactive = 0;
   fNOPactive = 0;
-  cout << "PE " << fNPE << endl;
+  //cout << "PE " << fNPE << endl;
   nEXODigiAnalysis::GetInstance()->GetEntry(evtEntry);
   Int_t NOP = nEXODigiAnalysis::GetInstance()->GetNumOP();
-  cout << "NOP " << NOP << endl;
+  //cout << "NOP " << NOP << endl;
   for (Int_t i=0; i<NOP; i++) {
     Double_t opX=0., opY=0., opZ=0., opE=0., opT=0.;
     nEXODigiAnalysis::GetInstance()->GetOP(i, opE, opX, opY, opZ, opT);
-    cout << "i argument " << i << endl;
-    cout << "opX position " << opX << endl;
-    cout << "opY position " << opY << endl;
-    cout << "opZ position " << opZ << endl;
+    //cout << "i argument " << i << endl;
+    //cout << "opX position " << opX << endl;
+    //cout << "opY position " << opY << endl;
+    //cout << "opZ position " << opZ << endl;
     
     Double_t efficiency = nEXOLightReadoutDigitize::GetEfficiency(opX, opY, opZ);  
     fNPE += efficiency;
-    cout << "efficiency " << efficiency << endl;
-    cout << "PE " << fNPE << endl;
+    //cout << "efficiency " << efficiency << endl;
+    //cout << "PE " << fNPE << endl;
  
     Double_t rho= sqrt(opX*opX + opY*opY);
-    cout << "rho position " << rho << endl; 
+    //cout << "rho position " << rho << endl; 
     if ((-105 <= rho && rho <= 105) && (0 <= opZ && opZ <= anodeZ)) {
     fNPEactive += nEXOLightReadoutDigitize::GetEfficiency(opX, opY, opZ);
-    cout << "PEactive " << fNPEactive << endl;  
+    //cout << "PEactive " << fNPEactive << endl;  
     fNOPactive += 1;
-    cout << "OPactive " << fNOPactive << endl;
+    //cout << "OPactive " << fNOPactive << endl;
      }	
     
      	
